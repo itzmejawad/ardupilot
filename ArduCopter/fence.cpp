@@ -22,7 +22,11 @@ void Copter::fence_check()
 
     // if there is a new breach take action
     if (new_breaches) {
-
+        if(fence.get_action() == AC_FENCE_ACTION_DISARM ) {
+            init_disarm_motors();
+        } else {
+      
+       
         // if the user wants some kind of response and motors are armed
         if(fence.get_action() != AC_FENCE_ACTION_REPORT_ONLY ) {
 
@@ -46,8 +50,7 @@ void Copter::fence_check()
                 }
             }
         }
-
-        // log an error in the dataflash
+           // log an error in the dataflash
         Log_Write_Error(ERROR_SUBSYSTEM_FAILSAFE_FENCE, new_breaches);
 
     } else if (orig_breaches) {
@@ -56,6 +59,7 @@ void Copter::fence_check()
     }
 }
 
+}
 // fence_send_mavlink_status - send fence status to ground station
 void Copter::fence_send_mavlink_status(mavlink_channel_t chan)
 {   
